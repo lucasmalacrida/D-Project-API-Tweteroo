@@ -17,7 +17,7 @@ app.post('/sign-up', (req, res) => {
 
     const newUser = { username, avatar };
     users.unshift(newUser);
-    res.send("OK");
+    res.status(201).send("OK");
 });
 
 app.post('/tweets', (req, res) => {
@@ -29,13 +29,13 @@ app.post('/tweets', (req, res) => {
     }
 
     if (!user) {
-        return res.send("UNAUTHORIZED");
+        return res.status(401).send("UNAUTHORIZED");
     }
 
     const newTweet = { username, tweet }
     newTweet.avatar = users.find(x => x.username === username).avatar;
     tweets.unshift(newTweet);
-    res.send("OK");
+    res.status(201).send("OK");
 });
 
 app.get('/tweets', (req, res) => {
