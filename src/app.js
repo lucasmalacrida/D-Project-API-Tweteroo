@@ -8,16 +8,18 @@ app.use(cors());
 const users = [];
 const tweets = [];
 
-app.get('/tweets', (req,res) => {
+app.get('/tweets', (req, res) => {
     res.send("GET Tweets");
 });
 
-app.post('/sign-up', (req,res) => {
-    const body = req.body;
-    res.send("POST SignUp");
+app.post('/sign-up', (req, res) => {
+    const { username, avatar } = req.body;
+    const newUser = { username, avatar };
+    users.push(newUser);
+    res.send("OK");
 });
 
-app.post('/tweets', (req,res) => {
+app.post('/tweets', (req, res) => {
     const body = req.body;
     res.send("POST Tweets");
 });
