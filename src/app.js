@@ -8,15 +8,11 @@ app.use(cors());
 const users = [];
 const tweets = [];
 
-app.get('/tweets', (req, res) => {
-    res.send("GET Tweets");
-});
-
 app.post('/sign-up', (req, res) => {
     const { username, avatar } = req.body;
-    
+
     const newUser = { username, avatar };
-    users.push(newUser);
+    users.unshift(newUser);
     res.send("OK");
 });
 
@@ -28,8 +24,14 @@ app.post('/tweets', (req, res) => {
     }
 
     const newTweet = { username, tweet }
-    tweets.push(newTweet);
+    newTweet.avatar = users.find( x => x.username === username).avatar;
+    tweets.unshift(newTweet);
     res.send("OK");
+});
+
+app.get('/tweets', (req, res) => {
+    const lastTweets = tweets.slice(0,10);
+    res.send(lastTweets);
 });
 
 const PORT = 5000;
