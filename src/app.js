@@ -14,14 +14,22 @@ app.get('/tweets', (req, res) => {
 
 app.post('/sign-up', (req, res) => {
     const { username, avatar } = req.body;
+    
     const newUser = { username, avatar };
     users.push(newUser);
     res.send("OK");
 });
 
 app.post('/tweets', (req, res) => {
-    const body = req.body;
-    res.send("POST Tweets");
+    const { username, tweet } = req.body;
+    const user = users.find(x => x.username === username);
+    if (!user) {
+        return res.send("UNAUTHORIZED");
+    }
+
+    const newTweet = { username, tweet }
+    tweets.push(newTweet);
+    res.send("OK");
 });
 
 const PORT = 5000;
