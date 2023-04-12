@@ -39,13 +39,23 @@ app.post('/tweets', (req, res) => {
 });
 
 app.get('/tweets', (req, res) => {
-    const lastTweets = tweets.slice(0, 10);
+    let lastTweets = tweets.slice(0, 10);
+
+    const page = Number(req.query.page);
+    if (page) {
+        if (Number.isInteger(page) && page >= 1) {
+            lastTweets = tweets.slice((page - 1) * 10, page * 10);
+        } else {
+            return res.status(400).send("Informe uma página válida!");
+        }
+    }
+
     res.send(lastTweets);
 });
 
 app.get('/tweets/:username', (req, res) => {
     const { username } = req.params;
-    const userTweets = tweets.filter( x => x.username === username);
+    const userTweets = tweets.filter(x => x.username === username);
     res.send(userTweets);
 });
 
